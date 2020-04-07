@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
+import { Brand } from '../interfaces/iBrand';
 
-const Brand = new mongoose.Schema({
+const BrandModel = new mongoose.Schema({
   userId: String,
   brandId: String,
   brandName: String,
@@ -8,4 +9,4 @@ const Brand = new mongoose.Schema({
   lastUpdated: Date,
 });
 
-export default Brand;
+export default mongoose.model<Brand>('Brand', BrandModel);

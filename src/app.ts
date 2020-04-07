@@ -5,7 +5,7 @@ import logger from 'morgan';
 import { join } from 'path';
 import brandsRouter from './api/brands';
 import healthRouter from './api/health';
-import usersRouter from './api/users';
+import sitesRouter from './api/sites';
 import mongoLoader from './loaders/mongoose';
 
 // load env variables
@@ -20,8 +20,8 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', healthRouter);
-app.use('/brands', brandsRouter);
-app.use('/users', usersRouter);
+app.use('/sites', sitesRouter);
+app.use('sites/:siteId/brands', brandsRouter);
 
 // init rabbitmq subscriber(s)
 // const templateSubscriber = Container.get(TemplateSubscriber);
