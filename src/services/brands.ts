@@ -10,7 +10,7 @@ export default class BrandsService {
    */
   async list(siteId: string): Promise<Brand[]> {
     try {
-      return BrandModel.find({ _id: siteId });
+      return BrandModel.find({ siteId: siteId });
     } catch (e) {
       console.error('🔥 error: ' + e);
     }

@@ -10,11 +10,13 @@ export default class SiteService {
    * @param {Site} siteDTO
    */
   async retrieve(siteDTO: Site): Promise<Site> {
+    let site;
     try {
-      return SiteModel.findOne(siteDTO);
+      site = SiteModel.findOne(siteDTO);
     } catch (e) {
       console.error('🔥 error: ' + e);
     }
+    return site;
   }
 
   /**
@@ -26,11 +28,11 @@ export default class SiteService {
     try {
       site = new SiteModel(siteDTO);
       await site.save();
-      return site;
     } catch (e) {
       console.error('🔥 error: ' + e);
       await site.remove();
       throw e;
     }
+    return site;
   }
 }

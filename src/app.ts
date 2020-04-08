@@ -21,7 +21,7 @@ app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', healthRouter);
 app.use('/sites', sitesRouter);
-app.use('sites/:siteId/brands', brandsRouter);
+app.use('/brands', brandsRouter);
 
 // init rabbitmq subscriber(s)
 // const templateSubscriber = Container.get(TemplateSubscriber);

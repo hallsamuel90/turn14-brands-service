@@ -5,9 +5,9 @@ import BrandService from '../services/brands';
 
 const router = Router();
 
-router.get('/', async function (req, res) {
+router.get('/:siteId?', async function (req, res) {
   const brandService = Container.get(BrandService);
-  const siteId = req.params.siteId;
+  const siteId = req.query.siteId;
   res.send(await brandService.list(siteId));
 });
 
