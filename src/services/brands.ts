@@ -12,7 +12,7 @@ export default class BrandsService {
     try {
       return BrandModel.find({ siteId: siteId });
     } catch (e) {
-      console.error('🔥 error: ' + e);
+      console.error('🔥 ' + e);
     }
   }
 
@@ -25,10 +25,10 @@ export default class BrandsService {
     try {
       brand = new BrandModel(brandDTO);
       await brand.save();
-      return brand;
+      return brand.id;
     } catch (e) {
-      console.error('🔥 error: ' + e);
-      await brand.remove();
+      console.error('🔥 ' + e);
+      brand.remove();
       throw e;
     }
   }
@@ -41,8 +41,8 @@ export default class BrandsService {
     try {
       await BrandModel.insertMany(brandDTOs);
     } catch (e) {
-      console.error('🔥 error: ' + e);
-      await BrandModel.deleteMany(brandDTOs);
+      console.error('🔥 ' + e);
+      BrandModel.deleteMany(brandDTOs);
       throw e;
     }
   }

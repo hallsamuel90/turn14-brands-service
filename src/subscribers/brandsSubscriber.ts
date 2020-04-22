@@ -10,6 +10,7 @@ export default class BrandsSubscriber {
    *
    */
   async subscribeBrandsSequence(): Promise<void> {
+    const RECONNECT_INTERVAL = 5;
     try {
       const connection = await amqp.connect(process.env.RABBITMQ_URI);
       const channel = await connection.createChannel();
@@ -22,6 +23,10 @@ export default class BrandsSubscriber {
       console.info('⌚ Waiting for import brands job requests...');
     } catch (e) {
       console.error('🔥 error: ' + e);
+      console.log('💪 Retrying in ' + RECONNECT_INTERVAL + ' seconds...');
+      setTimeout(() => {
+        this.subscribeBrandsSequence();
+      }, RECONNECT_INTERVAL * 1000);
     }
   }
 }
