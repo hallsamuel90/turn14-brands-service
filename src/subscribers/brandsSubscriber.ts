@@ -1,25 +1,25 @@
 import amqp from 'amqplib';
 import Container from 'typedi';
-import TemplateSequence from '../jobs/templateSequence';
+import TemplateSequence from '../jobs/brandsSequence';
 
 /**
  *
  */
-export default class TemplateSubscriber {
+export default class BrandsSubscriber {
   /**
    *
    */
-  async subscribeTemplateSequence(): Promise<void> {
+  async subscribeBrandsSequence(): Promise<void> {
     try {
       const connection = await amqp.connect(process.env.RABBITMQ_URI);
       const channel = await connection.createChannel();
-      await channel.assertQueue('importBrandsQueue');
+      await channel.assertQueue('brandsQueue');
       const templateSequence = Container.get(TemplateSequence);
-      channel.consume('importBrandsQueue', (message) => {
+      channel.consume('brandsQueue', (message) => {
         templateSequence.handler(JSON.parse(message.content.toString()));
         channel.ack(message);
       });
-      console.info('⌚ Waiting for job requests...');
+      console.info('⌚ Waiting for import brands job requests...');
     } catch (e) {
       console.error('🔥 error: ' + e);
     }

@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -rf build/*",
     "start": "node build/bin/www.js",
-    "build": "tsc"
+    "build": "tsc",
+    "contain": "sudo docker build -t turn14-brands-service ."
   },
   "dependencies": {
     "amqplib": "^0.5.5",

@@ -3,10 +3,12 @@ import dotenv from 'dotenv';
 import express, { json, urlencoded } from 'express';
 import logger from 'morgan';
 import { join } from 'path';
+import Container from 'typedi';
 import brandsRouter from './api/brands';
 import healthRouter from './api/health';
-import sitesRouter from './api/sites';
+import usersRouter from './api/users';
 import mongoLoader from './loaders/mongoose';
+import BrandsSubscriber from './subscribers/brandsSubscriber';
 
 // load env variables
 dotenv.config();
@@ -20,12 +22,12 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/', healthRouter);
-app.use('/sites', sitesRouter);
+app.use('/users', usersRouter);
 app.use('/brands', brandsRouter);
 
 // init rabbitmq subscriber(s)
-// const templateSubscriber = Container.get(TemplateSubscriber);
-// templateSubscriber.subscribeTemplateSequence();
+const brandsSubscriber = Container.get(BrandsSubscriber);
+brandsSubscriber.subscribeBrandsSequence();
 
 mongoLoader();
 

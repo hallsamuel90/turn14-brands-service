@@ -33,7 +33,17 @@ export default class BrandsService {
     }
   }
 
-  //   update() {}
-
-  //   delete() {}
+  /**
+   *
+   * @param {Brand[]} brandDTOs
+   */
+  async createMany(brandDTOs: Brand[]): Promise<void> {
+    try {
+      await BrandModel.insertMany(brandDTOs);
+    } catch (e) {
+      console.error('🔥 error: ' + e);
+      await BrandModel.deleteMany(brandDTOs);
+      throw e;
+    }
+  }
 }
