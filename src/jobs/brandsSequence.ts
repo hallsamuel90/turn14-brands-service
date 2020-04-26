@@ -5,7 +5,7 @@ import BrandsService from '../services/brands';
 /**
  *
  */
-export default class BrandsSequenceJob {
+export class BrandsSequenceJob {
   /**
    * Takes in a list of brands and populates the db
    *

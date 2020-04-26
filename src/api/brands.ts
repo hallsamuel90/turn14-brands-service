@@ -5,10 +5,10 @@ import BrandService from '../services/brands';
 
 const router = Router();
 
-router.get('/:siteId?', async function (req, res) {
+router.get('/:userId?', async function (req, res) {
   const brandService = Container.get(BrandService);
-  const siteId = req.query.siteId;
-  res.send(await brandService.list(siteId));
+  const userId = req.query.userId;
+  res.send(await brandService.list(userId));
 });
 
 router.post('/', async function (req, res) {
@@ -16,6 +16,14 @@ router.post('/', async function (req, res) {
   const brand: Brand = req.body;
   const createdBrand = await brandService.create(brand);
   res.send(createdBrand);
+});
+
+router.patch('/:id', async function (req, res) {
+  const brandService = Container.get(BrandService);
+  const id = req.params.id;
+  const brand: Brand = req.body;
+  const updatedBrand = await brandService.update(id, brand);
+  res.send(updatedBrand);
 });
 
 export default router;

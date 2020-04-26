@@ -6,11 +6,11 @@ import BrandModel from '../models/brand';
 export default class BrandsService {
   /**
    *
-   * @param {string} siteId
+   * @param {string} userId
    */
-  async list(siteId: string): Promise<Brand[]> {
+  async list(userId: string): Promise<Brand[]> {
     try {
-      return BrandModel.find({ siteId: siteId });
+      return BrandModel.find({ userId: userId });
     } catch (e) {
       console.error('🔥 ' + e);
     }
@@ -25,7 +25,7 @@ export default class BrandsService {
     try {
       brand = new BrandModel(brandDTO);
       await brand.save();
-      return brand.id;
+      return brand;
     } catch (e) {
       console.error('🔥 ' + e);
       brand.remove();
@@ -43,6 +43,22 @@ export default class BrandsService {
     } catch (e) {
       console.error('🔥 ' + e);
       BrandModel.deleteMany(brandDTOs);
+      throw e;
+    }
+  }
+
+  /**
+   * @param {string} id
+   * @param {Brand} brandDTO
+   */
+  async update(id: string, brandDTO: Brand): Promise<Brand> {
+    try {
+      const brand = await BrandModel.findOneAndUpdate({ _id: id }, brandDTO, {
+        new: true,
+      });
+      return brand;
+    } catch (e) {
+      console.error('🔥 ' + e);
       throw e;
     }
   }
