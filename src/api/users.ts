@@ -2,7 +2,7 @@ import { Router } from 'express';
 import Container from 'typedi';
 import { ApiRegistration } from '../interfaces/iApiRegistration';
 import { User } from '../interfaces/iUser';
-import RegistrationPublisher from '../publishers/registrationPublisher';
+import { RegistrationPublisher } from '../publishers/registrationPublisher';
 import UserService from '../services/users';
 const router = Router();
 

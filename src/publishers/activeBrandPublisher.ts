@@ -1,32 +1,32 @@
 import { connect } from 'amqplib';
-import { ApiRegistration } from '../interfaces/iApiRegistration';
+import { ActiveBrandDTO } from '../dtos/activeBrandDto';
 
 /**
  *
  */
-export class RegistrationPublisher {
+export class ActiveBrandPublisher {
   /**
    *
-   * @param {ApiRegistration} apiRegistration
+   * @param {ActiveBrandDTO} activeBrandDTO
    */
-  async queueRegistrationSequence(
-    apiRegistration: ApiRegistration
+  async queueActivateBrandSequence(
+    activeBrandDTO: ActiveBrandDTO
   ): Promise<void> {
     const RECONNECT_INTERVAL = 5;
     try {
       const connection = await connect(process.env.RABBITMQ_URI);
       const channel = await connection.createChannel();
-      await channel.assertQueue('registerApiQueue');
+      await channel.assertQueue('activateBrandsQueue');
       channel.sendToQueue(
-        'registerApiQueue',
-        Buffer.from(JSON.stringify(apiRegistration))
+        'activateBrandsQueue',
+        Buffer.from(JSON.stringify(activeBrandDTO))
       );
-      console.info('✌️ Registration Job queued!');
+      console.info('✌️ Active Brand Job queued!');
     } catch (e) {
       console.error('🔥 ' + e);
       console.log('💪 Retrying in ' + RECONNECT_INTERVAL + ' seconds...');
       setTimeout(() => {
-        this.queueRegistrationSequence(apiRegistration);
+        this.queueActivateBrandSequence(activeBrandDTO);
       }, RECONNECT_INTERVAL * 1000);
     }
   }
