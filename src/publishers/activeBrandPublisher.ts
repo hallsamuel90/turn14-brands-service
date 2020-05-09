@@ -1,9 +1,11 @@
 import { connect } from 'amqplib';
 import { ActiveBrandDTO } from '../dtos/activeBrandDto';
+import { Service } from 'typedi';
 
 /**
  *
  */
+@Service()
 export class ActiveBrandPublisher {
   /**
    *

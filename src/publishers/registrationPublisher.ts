@@ -1,9 +1,11 @@
 import { connect } from 'amqplib';
 import { ApiRegistration } from '../interfaces/iApiRegistration';
+import { Service } from 'typedi';
 
 /**
  *
  */
+@Service()
 export class RegistrationPublisher {
   /**
    *

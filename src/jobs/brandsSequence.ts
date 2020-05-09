@@ -1,19 +1,24 @@
-import Container from 'typedi';
+import { Inject, Service } from 'typedi';
 import { Brand } from '../interfaces/iBrand';
-import BrandsService from '../services/brands';
+import { BrandsService } from '../services/brands';
 
 /**
+ * Job for creating multiple brands.
  *
+ * @author Sam Hall <hallsamuel90@gmail.com>
  */
-export class BrandsSequenceJob {
+@Service()
+export class BrandsSequence {
+  @Inject()
+  private readonly brandsService: BrandsService;
+
   /**
-   * Takes in a list of brands and populates the db
+   * Takes in a list of brands and populates the db.
    *
-   * @param {Brand[]} brands
+   * @param {Brand[]} brands - list of brands to add.
    */
   handler(brands: Brand[]): void {
     console.info('🔨 Brands Sequence Job starting!');
-    const brandsService = Container.get(BrandsService);
-    brandsService.createMany(brands);
+    this.brandsService.createMany(brands);
   }
 }

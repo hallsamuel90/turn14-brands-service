@@ -1,10 +1,12 @@
 import { User } from '../interfaces/iUser';
 import UserModel from '../models/user';
+import { Service } from 'typedi';
 
 /**
  * User Service
  */
-export default class UserService {
+@Service()
+export class UsersService {
   /**
    *
    * @param {User} userDTO

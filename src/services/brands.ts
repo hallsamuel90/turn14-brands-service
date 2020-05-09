@@ -1,4 +1,4 @@
-import Container from 'typedi';
+import Container, { Service } from 'typedi';
 import { ActiveBrandDTO } from '../dtos/activeBrandDto';
 import { Brand } from '../interfaces/iBrand';
 import BrandModel from '../models/brand';
@@ -6,7 +6,8 @@ import { ActiveBrandPublisher } from '../publishers/activeBrandPublisher';
 /**
  * Brands Service
  */
-export default class BrandsService {
+@Service()
+export class BrandsService {
   /**
    *
    * @param {string} userId
@@ -56,7 +57,7 @@ export default class BrandsService {
    *
    * @param {string} id
    * @param {Brand} brandDTO
-   * @return {Promise<Brand>} updated brand
+   * @returns {Promise<Brand>} updated brand
    */
   async update(id: string, brandDTO: Brand): Promise<Brand> {
     const activeBrandsPublisher = Container.get(ActiveBrandPublisher);
