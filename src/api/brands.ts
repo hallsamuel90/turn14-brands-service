@@ -1,6 +1,6 @@
 import {
   Body,
-  Controller,
+  JsonController,
   Get,
   Param,
   Patch,
@@ -10,16 +10,21 @@ import {
 import { Inject } from 'typedi';
 import { Brand } from '../interfaces/iBrand';
 import { BrandsService } from '../services/brands';
+import { ActiveBrandPublisher } from '../publishers/activeBrandPublisher';
+import { ActiveBrandDTO } from '../dtos/activeBrandDto';
 
 /**
  * BrandsController.
  *
  * @author Sam Hall <hallsamuel90@gmail.com>
  */
-@Controller('/brands')
+@JsonController('/brands')
 export class BrandsController {
   @Inject()
   private readonly brandsService: BrandsService;
+
+  @Inject()
+  private readonly activeBrandsPublisher: ActiveBrandPublisher;
 
   /**
    * Fetches brands associated with the user.
@@ -49,14 +54,21 @@ export class BrandsController {
    *
    * @param {string} id - path parameter id of the brand to be updated.
    * @param {Brand} brand - brand data to update existing brand.
-   * @returns {Promise<Brand>} updated brand.
    */
   @Patch('/:id')
   async updateBrand(
     @Param('id') id: string,
     @Body() brand: Brand
-  ): Promise<Brand> {
-    const updatedBrand = await this.brandsService.update(id, brand);
-    return updatedBrand;
+  ): Promise<void> {
+    const originalBrand = await this.brandsService.update(id, brand);
+    // trigger udpate in pmgmt if active state has changed
+    if (brand.active != undefined && brand.active != originalBrand.active) {
+      const activeBrandDTO = new ActiveBrandDTO(
+        originalBrand.userId,
+        id,
+        brand.active
+      );
+      this.activeBrandsPublisher.queueActivateBrandSequence(activeBrandDTO);
+    }
   }
 }

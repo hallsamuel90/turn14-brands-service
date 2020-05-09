@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from 'routing-controllers';
+import { Body, Post, JsonController } from 'routing-controllers';
 import { Inject } from 'typedi';
 import { RegistrationDTO } from '../dtos/registrationDto';
 import { ApiRegistration } from '../interfaces/iApiRegistration';
@@ -11,7 +11,7 @@ import { UsersService } from '../services/users';
  *
  * @author Sam Hall <hallsamuel90@gmail.com>
  */
-@Controller('/users')
+@JsonController('/users')
 export class UsersController {
   @Inject()
   private readonly usersService: UsersService;

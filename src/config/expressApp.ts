@@ -8,6 +8,7 @@ export default (): Express => {
 
   const app = createExpressServer({
     controllers: [__dirname + '/../api/*.js'],
+    classTransformer: false,
   });
 
   app.use(logger('dev'));

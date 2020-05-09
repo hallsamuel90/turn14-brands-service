@@ -1,8 +1,6 @@
-import Container, { Service } from 'typedi';
-import { ActiveBrandDTO } from '../dtos/activeBrandDto';
+import { Service } from 'typedi';
 import { Brand } from '../interfaces/iBrand';
 import BrandModel from '../models/brand';
-import { ActiveBrandPublisher } from '../publishers/activeBrandPublisher';
 /**
  * Brands Service
  */
@@ -56,24 +54,17 @@ export class BrandsService {
    * send a msg to pgmt service to update its list of active brands
    *
    * @param {string} id
-   * @param {Brand} brandDTO
+   * @param {Brand} brand
    * @returns {Promise<Brand>} updated brand
    */
-  async update(id: string, brandDTO: Brand): Promise<Brand> {
-    const activeBrandsPublisher = Container.get(ActiveBrandPublisher);
+  async update(id: string, brand: Brand): Promise<Brand> {
     try {
-      const brand = await BrandModel.findOneAndUpdate({ _id: id }, brandDTO, {
-        new: true,
-      });
-      if (brandDTO.active) {
-        const activeBrandDTO = new ActiveBrandDTO(
-          brand.userId,
-          brand.brandId,
-          brand.active
-        );
-        activeBrandsPublisher.queueActivateBrandSequence(activeBrandDTO);
-      }
-      return brand;
+      // returns brand as it was before update
+      const updatedBrand = await BrandModel.findOneAndUpdate(
+        { _id: id },
+        brand
+      );
+      return updatedBrand;
     } catch (e) {
       console.error('🔥 ' + e);
       throw e;
