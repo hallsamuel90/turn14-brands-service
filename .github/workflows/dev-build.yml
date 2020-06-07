@@ -22,7 +22,7 @@ jobs:
         run: npm test
 
       - name: Build, Tag, and Publish
-        uses: mattdavis0351/actions/docker-pgr@v1
+        uses: mattdavis0351/actions/docker-gpr@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           image-name: brands-dev
