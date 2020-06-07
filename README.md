@@ -17,12 +17,12 @@ docker-compose
 
 npm install should install everything
 
-### Running Tests
+## Running Tests
 
 npm test
 mocha test explorer to run individual during TDD
 
-### Deployment
+## Deployment
 
 npm run contain to build docker image
 link to deployment repo with compose setup
