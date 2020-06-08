@@ -1,17 +1,17 @@
 import {
   Body,
-  JsonController,
   Get,
+  JsonController,
   Param,
   Patch,
   Post,
   QueryParam,
 } from 'routing-controllers';
 import { Inject } from 'typedi';
-import { Brand } from '../interfaces/iBrand';
-import { BrandsService } from '../services/brands';
-import { ActiveBrandPublisher } from '../publishers/activeBrandPublisher';
 import { ActiveBrandDTO } from '../dtos/activeBrandDto';
+import { Brand } from '../interfaces/iBrand';
+import { ActiveBrandPublisher } from '../publishers/activeBrandPublisher';
+import { BrandsService } from '../services/brands';
 
 /**
  * BrandsController.
@@ -65,7 +65,7 @@ export class BrandsController {
     if (brand.active != undefined && brand.active != originalBrand.active) {
       const activeBrandDTO = new ActiveBrandDTO(
         originalBrand.userId,
-        id,
+        originalBrand.brandId,
         brand.active
       );
       this.activeBrandsPublisher.queueActivateBrandSequence(activeBrandDTO);
